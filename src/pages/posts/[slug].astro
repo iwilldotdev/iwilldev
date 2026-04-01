@@ -1,0 +1,15 @@
+---
+import PostPage from "@features/PostPage.astro";
+import { getPosts } from "@lib/posts";
+
+export function getStaticPaths() {
+  const posts = getPosts("pt");
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+---
+
+<PostPage locale="pt" slug={slug!} />

@@ -1,0 +1,777 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>William Gonçalves | Senior Front-End &amp; AI Engineer</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700;FILL@0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              outline: "#666666",
+              "on-secondary-container": "#FFFFFF",
+              "on-surface": "#FFFFFF",
+              "tertiary-fixed": "#969696",
+              "on-secondary-fixed": "#FFFFFF",
+              tertiary: "#969696",
+              "surface-container-low": "#0a0a0a",
+              "on-secondary": "#000000",
+              "primary-container": "#FFFFFF",
+              "tertiary-container": "#333333",
+              "on-tertiary-container": "#FFFFFF",
+              "on-background": "#FFFFFF",
+              "inverse-primary": "#000000",
+              "on-tertiary-fixed": "#000000",
+              "on-tertiary": "#969696",
+              "surface-variant": "#1a1a1a",
+              "surface-bright": "#1a1a1a",
+              "on-primary-container": "#000000",
+              background: "#000000",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#969696",
+              "primary-fixed": "#FFFFFF",
+              "on-tertiary-fixed-variant": "#969696",
+              "primary-fixed-dim": "#e2e2e2",
+              "secondary-fixed": "#969696",
+              "on-surface-variant": "#969696",
+              "on-primary-fixed": "#000000",
+              "surface-dim": "#050505",
+              "surface-container-lowest": "#000000",
+              surface: "#000000",
+              "secondary-fixed-dim": "#666666",
+              primary: "#FFFFFF",
+              "inverse-on-surface": "#000000",
+              "secondary-container": "#1a1a1a",
+              "on-primary-fixed-variant": "#969696",
+              "surface-container-highest": "#333333",
+              error: "#ffb4ab",
+              "tertiary-fixed-dim": "#666666",
+              "error-container": "#93000a",
+              secondary: "#969696",
+              "on-error-container": "#ffdad6",
+              "surface-container": "#0a0a0a",
+              "outline-variant": "#333333",
+              "inverse-surface": "#FFFFFF",
+              "on-primary": "#000000",
+              "surface-tint": "#FFFFFF",
+              "surface-container-high": "#121212",
+            },
+            fontFamily: {
+              headline: ["Manrope", "sans-serif"],
+              body: ["Manrope", "sans-serif"],
+              label: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+            spacing: {
+              18: "4.5rem",
+              24: "6rem",
+              32: "8rem",
+              40: "10rem",
+              64: "16rem",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Manrope", sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .text-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+          padding 0.5s ease;
+      }
+      .accordion-item:hover .accordion-content {
+        max-height: 400px;
+        padding-bottom: 2rem;
+      }
+      .accordion-item:hover .expand-icon {
+        transform: rotate(45deg);
+      }
+    </style>
+  </head>
+  <body class="bg-surface selection:bg-primary selection:text-on-primary">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl flex justify-between items-center px-6 md:px-12 py-6 w-full"
+    >
+      <div class="font-manrope font-bold text-xl tracking-tighter text-white">
+        iwill.dev
+      </div>
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex gap-12 items-center">
+        <a
+          class="font-manrope font-light tracking-tight text-sm uppercase text-white font-bold border-b border-white pb-1"
+          href="#"
+          >EDITORIAL</a
+        >
+        <a
+          class="font-manrope font-light tracking-tight text-sm uppercase text-neutral-400 hover:text-white transition-colors"
+          href="#about"
+          >ABOUT</a
+        >
+        <a
+          class="font-manrope font-light tracking-tight text-sm uppercase text-neutral-400 hover:text-white transition-colors"
+          href="#experience"
+          >EXPERIENCE</a
+        >
+        <a
+          class="font-manrope font-light tracking-tight text-sm uppercase text-neutral-400 hover:text-white transition-colors"
+          href="#skills"
+          >SKILLS</a
+        >
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="material-symbols-outlined text-white hover:opacity-70 transition-opacity"
+        >
+          menu
+        </button>
+      </div>
+    </nav>
+    <main>
+      <!-- Hero Section: The Monolith -->
+      <section
+        class="min-h-screen flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-black"
+      >
+        <div class="relative z-10 max-w-7xl mx-auto w-full pt-32">
+          <div class="flex flex-wrap gap-4 mb-6 text-reveal">
+            <span
+              class="label-sm font-bold tracking-[0.2em] uppercase text-on-surface-variant border border-outline-variant/30 px-3 py-1 text-[10px]"
+              >FRONTEND ENGINEER</span
+            >
+            <span
+              class="label-sm font-bold tracking-[0.2em] uppercase text-on-surface-variant border border-outline-variant/30 px-3 py-1 text-[10px]"
+              >REACT/TYPESCRIPT</span
+            >
+            <span
+              class="label-sm font-bold tracking-[0.2em] uppercase text-on-surface-variant border border-outline-variant/30 px-3 py-1 text-[10px]"
+              >AI/ML ENTHUSIAST</span
+            >
+          </div>
+          <h1
+            class="text-[clamp(3.5rem,10vw,8rem)] font-extralight tracking-tighter leading-[0.9] mb-8 text-reveal text-white"
+            style="animation-delay: 0.1s"
+          >
+            William<br />Gonçalves
+          </h1>
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-8 text-reveal"
+            style="animation-delay: 0.2s"
+          >
+            <p
+              class="text-xl md:text-2xl font-light text-on-surface-variant max-w-xl leading-relaxed"
+            >
+              Building solutions that bridge people and technology.
+            </p>
+            <div
+              class="flex items-center gap-4 group cursor-pointer text-white"
+            >
+              <span class="font-bold text-xs tracking-widest uppercase"
+                >Scroll to explore</span
+              >
+              <span class="material-symbols-outlined animate-bounce"
+                >arrow_downward</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Submerged layer detail -->
+        <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+          <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-full bg-gradient-to-b from-surface-container-high to-black"
+          ></div>
+        </div>
+      </section>
+      <!-- About Section -->
+      <section class="py-40 md:py-64 px-6 md:px-12 bg-black" id="about">
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24"
+        >
+          <div class="md:col-span-4">
+            <h2
+              class="label-sm font-bold tracking-[0.2em] uppercase text-white sticky top-32"
+            >
+              Sobre mim
+            </h2>
+          </div>
+          <div class="md:col-span-8">
+            <div class="space-y-12">
+              <p
+                class="text-3xl md:text-5xl font-light leading-tight text-on-surface"
+              >
+                Senior Front-End Engineer with 10+ years of experience.
+              </p>
+              <div class="h-px w-24 bg-outline-variant"></div>
+              <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-12 text-on-surface-variant leading-relaxed text-lg"
+              >
+                <p>
+                  Currently leading front-end architecture at ConstruCode, I
+                  specialize in building high-performance, scalable web
+                  ecosystems using React and TypeScript.
+                </p>
+                <p>
+                  My current focus lies at the intersection of web performance
+                  and AI Engineering, integrating intelligent models into
+                  production workflows to create superior user experiences.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Experiência Section (Accordion) -->
+      <section class="py-40 md:py-64 px-6 md:px-12 bg-black" id="experience">
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24"
+        >
+          <div class="md:col-span-4">
+            <h2
+              class="label-sm font-bold tracking-[0.2em] uppercase text-white sticky top-32"
+            >
+              Experiência
+            </h2>
+          </div>
+          <div class="md:col-span-8">
+            <div class="flex flex-col w-full max-w-[1040px]">
+              <!-- ConstruCode -->
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <div>
+                    <h3
+                      class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                    >
+                      ConstruCode
+                    </h3>
+                    <span class="text-xs uppercase tracking-widest text-outline"
+                      >Lead Front-End Architect</span
+                    >
+                  </div>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Leading the architectural evolution of the core platform,
+                    implementing advanced React patterns and streamlining the
+                    development lifecycle for large-scale engineering tools.
+                  </p>
+                </div>
+              </div>
+              <!-- Virgo Inc. -->
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <div>
+                    <h3
+                      class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                    >
+                      Virgo Inc.
+                    </h3>
+                    <span class="text-xs uppercase tracking-widest text-outline"
+                      >Senior Software Engineer</span
+                    >
+                  </div>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Focused on fintech solutions, building robust and secure
+                    financial dashboards and transaction management systems with
+                    high reliability.
+                  </p>
+                </div>
+              </div>
+              <!-- Petlove -->
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <div>
+                    <h3
+                      class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                    >
+                      Petlove
+                    </h3>
+                    <span class="text-xs uppercase tracking-widest text-outline"
+                      >Frontend Specialist</span
+                    >
+                  </div>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Optimization of e-commerce checkout flows and customer
+                    engagement interfaces for Brazil's largest pet ecosystem.
+                  </p>
+                </div>
+              </div>
+              <!-- Taghos Tecnologia -->
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <div>
+                    <h3
+                      class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                    >
+                      Taghos Tecnologia
+                    </h3>
+                    <span class="text-xs uppercase tracking-widest text-outline"
+                      >Full Stack Developer</span
+                    >
+                  </div>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Development of networking and infrastructure management
+                    tools using a variety of technologies across the stack.
+                  </p>
+                </div>
+              </div>
+              <!-- Independent / Critical Infrastructure -->
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <div>
+                    <h3
+                      class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                    >
+                      Critical Infrastructure
+                    </h3>
+                    <span class="text-xs uppercase tracking-widest text-outline"
+                      >Systems Consultant</span
+                    >
+                  </div>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Designing and maintaining high-availability systems and
+                    data-critical web applications for specialized industries.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Formação Section (Accordion) -->
+      <section class="py-40 md:py-64 px-6 md:px-12 bg-black">
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24"
+        >
+          <div class="md:col-span-4">
+            <h2
+              class="label-sm font-bold tracking-[0.2em] uppercase text-white sticky top-32"
+            >
+              Formação
+            </h2>
+          </div>
+          <div class="md:col-span-8">
+            <div class="flex flex-col w-full max-w-[1040px]">
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <h3
+                    class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                  >
+                    Bachelor's in AI (UniBF)
+                  </h3>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Deep focus on machine learning, neural networks, and
+                    automated reasoning systems.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <h3
+                    class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                  >
+                    Systems Analysis (Descomplica)
+                  </h3>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Technologist degree focused on software engineering
+                    lifecycles and modern development methodologies.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <h3
+                    class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                  >
+                    Information Systems (FEUC)
+                  </h3>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Foundational bachelor's degree in database management,
+                    software architecture, and corporate systems.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="accordion-item group flex flex-col border-b border-outline-variant overflow-hidden cursor-pointer transition-all duration-500"
+              >
+                <div
+                  class="flex items-center justify-between min-h-[96px] py-6"
+                >
+                  <h3
+                    class="font-manrope text-3xl md:text-4xl font-light text-on-surface"
+                  >
+                    Electronics (FAETEC)
+                  </h3>
+                  <div
+                    class="expand-icon flex items-center justify-center w-12 h-12 transition-transform duration-500 text-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-3xl font-extralight"
+                      >add</span
+                    >
+                  </div>
+                </div>
+                <div class="accordion-content">
+                  <p
+                    class="text-lg text-on-surface-variant font-light leading-relaxed max-w-2xl"
+                  >
+                    Technical high school education providing deep understanding
+                    of hardware and low-level logic.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Certifications Section -->
+      <section class="py-40 md:py-64 px-6 md:px-12 bg-black">
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24"
+        >
+          <div class="md:col-span-4">
+            <h2
+              class="label-sm font-bold tracking-[0.2em] uppercase text-white sticky top-32"
+            >
+              Certificações
+            </h2>
+          </div>
+          <div class="md:col-span-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div
+                class="p-8 border border-outline-variant bg-surface-container-low"
+              >
+                <span class="text-xs font-bold text-outline block mb-2"
+                  >GOOGLE</span
+                >
+                <h4 class="text-2xl font-light">Prompting Essentials</h4>
+              </div>
+              <div
+                class="p-8 border border-outline-variant bg-surface-container-low"
+              >
+                <span class="text-xs font-bold text-outline block mb-2"
+                  >BRANAS.IO</span
+                >
+                <h4 class="text-2xl font-light">Clean Code</h4>
+              </div>
+              <div
+                class="p-8 border border-outline-variant bg-surface-container-low"
+              >
+                <span class="text-xs font-bold text-outline block mb-2"
+                  >DIO</span
+                >
+                <h4 class="text-2xl font-light">Node.js</h4>
+              </div>
+              <div
+                class="p-8 border border-outline-variant bg-surface-container-low"
+              >
+                <span class="text-xs font-bold text-outline block mb-2"
+                  >DIO</span
+                >
+                <h4 class="text-2xl font-light">ReactJS</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Skills Section -->
+      <section
+        class="py-40 md:py-64 px-6 md:px-12 bg-surface-container-low"
+        id="skills"
+      >
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24"
+        >
+          <div class="md:col-span-4">
+            <h2
+              class="label-sm font-bold tracking-[0.2em] uppercase text-white sticky top-32"
+            >
+              Skills
+            </h2>
+          </div>
+          <div class="md:col-span-8">
+            <div class="space-y-20">
+              <div>
+                <h3
+                  class="text-xs font-bold tracking-[0.3em] uppercase mb-10 text-outline"
+                >
+                  Main Skills
+                </h3>
+                <div
+                  class="flex flex-wrap gap-x-8 gap-y-6 text-3xl md:text-5xl font-extralight text-on-surface"
+                >
+                  <span>React</span>
+                  <span class="text-outline">/</span>
+                  <span>TypeScript</span>
+                  <span class="text-outline">/</span>
+                  <span>Remix</span>
+                  <span class="text-outline">/</span>
+                  <span>Next.js</span>
+                  <span class="text-outline">/</span>
+                  <span>Node.js</span>
+                  <span class="text-outline">/</span>
+                  <span>Tailwind CSS</span>
+                </div>
+              </div>
+              <div>
+                <h3
+                  class="text-xs font-bold tracking-[0.3em] uppercase mb-10 text-outline"
+                >
+                  Secondary Skills
+                </h3>
+                <div
+                  class="flex flex-wrap gap-x-6 gap-y-4 text-xl md:text-2xl font-light text-on-surface-variant"
+                >
+                  <span>PostgreSQL</span>
+                  <span>Docker</span>
+                  <span>C#</span>
+                  <span>.NET</span>
+                  <span>Python</span>
+                  <span>AWS</span>
+                  <span>CI/CD</span>
+                  <span>Unit Testing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- CTA Section -->
+      <section
+        class="py-40 md:py-64 bg-black flex flex-col items-center justify-center text-center px-6"
+      >
+        <h2
+          class="text-5xl md:text-7xl font-extralight tracking-tighter mb-12 text-white"
+        >
+          Vamos criar algo<br />excepcional?
+        </h2>
+        <a
+          class="group relative px-12 py-5 bg-white text-black rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1"
+          href="mailto:hello@iwill.dev"
+        >
+          <span
+            class="relative z-10 font-bold tracking-widest uppercase text-xs"
+            >Entrar em contato</span
+          >
+          <div
+            class="absolute inset-0 bg-neutral-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300"
+          ></div>
+        </a>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="w-full relative py-20 bg-black grid grid-cols-1 md:grid-cols-2 gap-12 px-12 border-t border-outline-variant"
+    >
+      <div class="space-y-8">
+        <div class="text-lg font-black text-white uppercase tracking-tighter">
+          William Gonçalves
+        </div>
+        <p
+          class="font-manrope text-xs font-bold tracking-widest uppercase text-outline max-w-xs"
+        >
+          © 2024 IWILL.DEV. ALL RIGHTS RESERVED.
+        </p>
+      </div>
+      <div class="grid grid-cols-2 gap-8 md:justify-items-end">
+        <div class="flex flex-col gap-4">
+          <a
+            class="font-manrope text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-white transition-colors underline-offset-4 hover:underline"
+            href="https://linkedin.com/in/iwilldev"
+            target="_blank"
+            >LINKEDIN</a
+          >
+          <a
+            class="font-manrope text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-white transition-colors underline-offset-4 hover:underline"
+            href="https://github.com/iwilldev"
+            target="_blank"
+            >GITHUB</a
+          >
+        </div>
+        <div class="flex flex-col gap-4">
+          <a
+            class="font-manrope text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-white transition-colors underline-offset-4 hover:underline"
+            href="https://instagram.com/iwill.dev"
+            target="_blank"
+            >INSTAGRAM</a
+          >
+          <a
+            class="font-manrope text-xs font-bold tracking-widest uppercase text-neutral-400 hover:text-white transition-colors underline-offset-4 hover:underline"
+            href="https://twitter.com/iwilldev"
+            target="_blank"
+            >TWITTER</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

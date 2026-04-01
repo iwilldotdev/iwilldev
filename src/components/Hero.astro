@@ -1,0 +1,44 @@
+---
+import type { Locale } from "@data/i18n";
+import { getDictionary } from "@data/i18n";
+import { ArrowDown } from "lucide-astro";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+---
+
+<section class="min-h-screen flex flex-col justify-center px-6 md:px-12 relative overflow-hidden bg-black" data-reveal>
+  <div class="relative z-10 max-w-7xl mx-auto w-full pt-32">
+    <div class="flex flex-wrap gap-4 mb-6 text-reveal">
+      {dict.hero.tags.map((tag) => (
+        <span class="font-bold tracking-[0.2em] uppercase text-neutral-400 border border-neutral-700/50 px-3 py-1 text-[10px]">
+          {tag}
+        </span>
+      ))}
+    </div>
+    
+    <h1 class="text-[clamp(3.5rem,10vw,8rem)] font-extralight tracking-tighter leading-[0.9] mb-8 text-reveal text-white" style="animation-delay: 0.1s">
+      William<br />Gonçalves
+    </h1>
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 text-reveal" style="animation-delay: 0.2s">
+      <p class="text-xl md:text-2xl font-light text-neutral-400 max-w-xl leading-relaxed">
+        {dict.hero.tagline}
+      </p>
+      
+      <div class="flex items-center gap-4 group cursor-pointer text-white">
+        <span class="font-bold text-xs tracking-widest uppercase">Scroll to explore</span>
+        <ArrowDown class="w-6 h-6 animate-bounce text-white" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Submerged layer detail -->
+  <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-full bg-gradient-to-b from-neutral-800 to-black"></div>
+  </div>
+</section>

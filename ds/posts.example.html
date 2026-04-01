@@ -1,0 +1,432 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#e2e2e2",
+              "on-secondary-fixed-variant": "#3b3b3b",
+              "on-surface": "#1a1c1c",
+              tertiary: "#3b3b3b",
+              "surface-container-highest": "#e2e2e2",
+              "outline-variant": "#c6c6c6",
+              "surface-tint": "#5e5e5e",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e2e2e2",
+              "surface-container-low": "#f3f3f4",
+              "tertiary-fixed": "#5e5e5e",
+              "inverse-primary": "#c6c6c6",
+              "surface-container": "#eeeeee",
+              "on-tertiary-fixed": "#ffffff",
+              "on-secondary-fixed": "#1b1c1c",
+              "inverse-on-surface": "#f0f1f1",
+              "surface-bright": "#f9f9f9",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed": "#ffffff",
+              "secondary-fixed-dim": "#acabab",
+              "on-surface-variant": "#474747",
+              "on-primary-container": "#ffffff",
+              "primary-container": "#3b3b3b",
+              "surface-container-high": "#e8e8e8",
+              surface: "#f9f9f9",
+              "secondary-container": "#d6d4d3",
+              "on-tertiary-fixed-variant": "#e2e2e2",
+              "surface-dim": "#dadada",
+              secondary: "#5f5e5e",
+              "on-tertiary": "#e2e2e2",
+              "on-error": "#ffffff",
+              "tertiary-container": "#747474",
+              error: "#ba1a1a",
+              "on-secondary-container": "#1b1c1c",
+              "on-background": "#1a1c1c",
+              "tertiary-fixed-dim": "#474747",
+              "on-primary-fixed-variant": "#e2e2e2",
+              primary: "#000000",
+              "on-error-container": "#410002",
+              "on-tertiary-container": "#ffffff",
+              "primary-fixed": "#5e5e5e",
+              outline: "#777777",
+              "inverse-surface": "#2f3131",
+              background: "#f9f9f9",
+              "secondary-fixed": "#c8c6c6",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#474747",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Manrope"],
+              label: ["Manrope"],
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #000000; /* Forcing Dark Mode Base */
+        color: #e2e2e2;
+        -webkit-font-smoothing: antialiased;
+      }
+      .tonal-shift {
+        background-color: rgba(255, 255, 255, 0.03);
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+  </head>
+  <body class="font-body selection:bg-white selection:text-black">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-neutral-950/80 backdrop-blur-xl">
+      <div
+        class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center"
+      >
+        <span class="text-lg font-bold tracking-tighter text-white"
+          >IWILL.DEV</span
+        >
+        <div
+          class="hidden md:flex items-center gap-12 font-manrope font-light tracking-tight"
+        >
+          <a
+            class="text-neutral-400 hover:text-white transition-colors hover:scale-105 transition-transform duration-300"
+            href="#"
+            >Home</a
+          >
+          <a
+            class="text-neutral-400 hover:text-white transition-colors hover:scale-105 transition-transform duration-300"
+            href="#"
+            >Work</a
+          >
+          <a
+            class="text-white font-semibold border-b-2 border-white pb-1 hover:scale-105 transition-transform duration-300"
+            href="#"
+            >Posts</a
+          >
+          <a
+            class="text-neutral-400 hover:text-white transition-colors hover:scale-105 transition-transform duration-300"
+            href="#"
+            >Links</a
+          >
+        </div>
+        <button class="md:hidden text-white">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </nav>
+    <main>
+      <!-- Editorial Header Section -->
+      <section class="pt-60 pb-40 px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+          <h1
+            class="text-[clamp(4rem,12vw,10rem)] leading-[0.85] font-medium tracking-tighter text-white"
+          >
+            Posts
+          </h1>
+          <p
+            class="max-w-xs text-on-surface-variant font-light leading-relaxed mb-6"
+          >
+            A collection of thoughts, technical deep-dives, and editorial
+            experiments in modern web architecture.
+          </p>
+        </div>
+      </section>
+      <!-- Post Grid: Asymmetric Layout inspired by Project Grid -->
+      <section class="px-8 max-w-7xl mx-auto pb-60">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-x-12 gap-y-32">
+          <!-- Post 1: Hero Large -->
+          <div class="md:col-span-8 group cursor-pointer">
+            <div
+              class="aspect-[16/9] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="Code on screen"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Abstract glowing computer code on dark screen"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5Dtaky3tfZuNfpzNU2F3PliJhk0yfm9JSo2iYSTvePycXWL-_YElpjgzslHLcv2aq-41iwxB4sXf8hZt6i6VJtajNxw5-MtJJVCC6G4idcJ1myUyDPRc1qm-0OVTO1dkkVJ11P0lZrAYELHgWioHloOMqdUJ6pWoyGxN9KsirmXYPyC1W2EWhWnfwoQTfwqX1mdyAbx-U-93lJ09H5lCMqNFPkpgOizTIFowX-5kaYawo3KTBFxyRjsyJKulZGe7LpmAPuqGVTs9k"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Architecture — 2024</span
+              >
+              <h3
+                class="text-3xl md:text-5xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                6 TypeScript Habits for AI-Friendly Code
+              </h3>
+            </div>
+          </div>
+          <!-- Post 2: Offset Small -->
+          <div class="md:col-span-4 md:mt-40 group cursor-pointer">
+            <div
+              class="aspect-[4/5] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="React Icon"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Modern abstract rendering of React logo"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaemSo3XJuv41wA6aLcqybuJwKOVlnBuTcgPK_05rZaIgxeoCiyzrZdE0o07M05oYeOI0aIH55qjw84l-sV5mHiMCLFS6clJRcwXItjCPwiNTFO7DT_XlhaDx2z4-aBRVgSwHT9g8970G68_UyeMM_Zsu9Vf082Z8W0ZXdOgVRZM-sxsdaq0PJxQEBM2gHlVkZSIUodzjpZvSb7OhYBIA_w9c6vc0_JGc_hqxon85Hw0eYeotjzfJzFEH3bYf8H10jzlnGrZ3f-dqx"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Frameworks</span
+              >
+              <h3
+                class="text-2xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                React Router 7: 'Multiple Actions' in a Single Route
+              </h3>
+            </div>
+          </div>
+          <!-- Post 3: Medium -->
+          <div class="md:col-span-5 group cursor-pointer">
+            <div
+              class="aspect-[1/1] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="Porsche car details"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Macro photography of a sleek car headlight"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbkrL29w_TLP-txm6pDL12MSsBSW6URqM55BJXKIsJgODiK7Ya8VTmdz3hDdwSOOu2hty2wq0hBDFRGlKwdwW-9AGZpv5jGRo9mgZ-pHwbXMZxCFOXVgTpebtqzW80FdPeqdaeScJDh_nS9YZqU3PAtJLdwzVzjhTXnto42o_ASbzahqvno6MpbWwW9J4H5J6w7g62TFksbcEA6eougaE5O-RSYJnfREO2KlWyLF9xKaZ7b0l1sQEeAgAlnlfeH4-pb4uD_LtY4y4h"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Fundamentals</span
+              >
+              <h3
+                class="text-2xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                TypeScript Fundamentals with Cars
+              </h3>
+            </div>
+          </div>
+          <!-- Post 4: Large Horizontal -->
+          <div class="md:col-span-7 group cursor-pointer">
+            <div
+              class="aspect-[16/10] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="Space data"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Digital web of connections in space"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw-CqphTdkV6hmiBBbWfic6fjGnoqfVZBYNk9X6PQNlVldxx392qc2L7P6VC_ygClJx50DbDYKxeAVIzH1Rxq2Ty3MwLtr0JwD9GjFDKYif3jnOblUOHt8HeOcbaNuvdOJJbCFU8NmZhvraGRIje9qx4m9Xl8o1wfp15OA1uc482fFzYVoIVmJjzO8l2n0oVVfb9G3VS9bIUEAVNGqs-CU-zqqs3BTbIJJ6S5DkPbQ5MmbFuV1h1fYXGt0-O9qLyCngssfm_TisGK_"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Advanced TS</span
+              >
+              <h3
+                class="text-2xl md:text-4xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                Smart Generic Functions
+              </h3>
+            </div>
+          </div>
+          <!-- Row 3: Grid Mix -->
+          <div class="md:col-span-4 group cursor-pointer">
+            <div
+              class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="Sensors"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Minimalist technical hardware sensor on board"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-CQATCQwIQaFkGwOqTuKbAIUAaLavYk-YT4zicEx2so-NI4JKV1KNBLxD_PwE1GsiGygrlzqrMXX-76TvOfByj4mwNlcFzCgFVhQuAKoEAj9Mb6Ki-UG7z0w4lTu4Sfa_r9aLXUS2UluQ0N8u8lctmR3sl6SE-gWVb5m6QTrfAySmOCpS0q0GRJ1eeNhhwS_MtLVfprndlOGjWRE1xSSUp6j9LiJrd-C5eHmWxLioBSFN5x9C88u_X3UdoIGrqjbyPLl4vQISj0uL"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Web API</span
+              >
+              <h3
+                class="text-2xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                Intersection Observer - Lazy loading, animations, and infinite
+                scroll
+              </h3>
+            </div>
+          </div>
+          <div class="md:col-span-4 md:mt-24 group cursor-pointer">
+            <div
+              class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="Motion blur"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Abstract motion blur of white light"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3A58_PHN2XQNRfBaNCGEKZH54plgKwkXCM0a4k8Edj6uHGptFRlZQv7PK-VhFjsnDaPXBIbP6aG-yk17DVr2nyUby_I7wube5su6lLol2uy-h9uXIVIGi4904nP2Wy5QsdxOCVdA6GkG_384-wk2IwUlY2oY0TCZp6bml3x46yolSh8bpHKlxBWWSZe25_xkIfvK2PJaB-PhrIo6_xC7TK_yNAUsEvT0LPU3nzKHP_PwIe5kUxC-SMlk1u06qudBnHlgDVgs9OeGL"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Interaction</span
+              >
+              <h3
+                class="text-2xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                Animating elements when they enter and leave the screen
+              </h3>
+            </div>
+          </div>
+          <div class="md:col-span-4 group cursor-pointer">
+            <div
+              class="aspect-[3/4] overflow-hidden bg-surface-container-low mb-8"
+            >
+              <img
+                alt="CSS"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Dark and light contrasted abstract surfaces"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj0eVwuwy8f-GpYaSrPPL4HvCLDVYyISp2FRFjbBnkPhYJlJyCmk89dkqciEM7CGkmt562Tz0mRSeb8W7R4S3aKQS7ALj1MJ3RWGzO4Md4Q1f5oPPq82oy5VNjC_xpaX9I46uzgaubRBOBFrmpwZ7qlzH4Lzhi64jBCOb0cGwz9kKnJHKIHRiyRDIt6Y937tMLDueOLTMWsPgVUb_iwc5VSLYQyr7XuMZR0Rh4G_3Fn2xuLS8ZiO1e8a_6YlaXmmb-dv3EEzut3YGe"
+              />
+            </div>
+            <div class="flex flex-col gap-4">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Styling</span
+              >
+              <h3
+                class="text-2xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                Changing screen theme with Pure CSS
+              </h3>
+            </div>
+          </div>
+          <!-- Final Featured Post -->
+          <div class="md:col-span-12 group cursor-pointer mt-20">
+            <div
+              class="aspect-[21/9] overflow-hidden bg-surface-container-low mb-8 relative"
+            >
+              <img
+                alt="Code typing"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                data-alt="Cinematic shot of neon computer code"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9qvdvDYVHyfNO1Cb66ZqlD4ThYQXIGjidWhBdCvU-Ruy7wWot5veeWWlx06G55gMc529_MLNaHOvFE9v_46G9nbjU2jGE8bPHfWOlVjRHO4geHCEEyENvu6CNQX98oW_mj_rm5KBwufQplvlo7TOrVirC8oVqHlJv-U50ZT5Uh6lCVkltf7havTubUWgzw4C-8_HE77HDkj605jRUm6CnTJxMqSsRT6s_g-vuL2x5zOW1e06VFIfcsCobCnO3IzICw1IeshIfP2CT"
+              />
+              <div
+                class="absolute inset-0 bg-black/40 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-white text-6xl"
+                  >play_circle</span
+                >
+              </div>
+            </div>
+            <div class="flex flex-col gap-4 max-w-2xl">
+              <span
+                class="label-sm font-bold tracking-[0.2em] text-neutral-500 uppercase"
+                >Logic</span
+              >
+              <h3
+                class="text-3xl md:text-5xl font-light tracking-tight text-white group-hover:opacity-70 transition-opacity"
+              >
+                'Magic' text automatically typed with JavaScript
+              </h3>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Newsletter / Editorial CTA -->
+      <section class="py-40 bg-neutral-900 px-8">
+        <div
+          class="max-w-7xl mx-auto flex flex-col items-center text-center gap-12"
+        >
+          <h2
+            class="text-4xl md:text-6xl font-light tracking-tighter text-white"
+          >
+            Join the architectural journey.
+          </h2>
+          <div class="w-full max-w-lg relative group">
+            <input
+              class="w-full bg-transparent border-b border-neutral-700 py-6 text-xl font-light tracking-widest placeholder:text-neutral-600 focus:outline-none focus:border-white transition-colors uppercase"
+              placeholder="EMAIL ADDRESS"
+              type="email"
+            />
+            <button
+              class="absolute right-0 bottom-6 text-white hover:translate-x-2 transition-transform"
+            >
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-20 mt-40 bg-neutral-950">
+      <div
+        class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8"
+      >
+        <div class="flex flex-col gap-4">
+          <span class="text-white text-xl font-bold tracking-tighter"
+            >IWILL.DEV</span
+          >
+          <p
+            class="font-manrope text-sm tracking-widest uppercase font-bold text-neutral-500"
+          >
+            © 2024 IWILL.DEV — All Rights Reserved
+          </p>
+        </div>
+        <div
+          class="flex gap-12 font-manrope text-sm tracking-widest uppercase font-bold"
+        >
+          <a
+            class="text-neutral-500 hover:text-white hover:opacity-70 transition-opacity"
+            href="#"
+            >Twitter</a
+          >
+          <a
+            class="text-neutral-500 hover:text-white hover:opacity-70 transition-opacity"
+            href="#"
+            >GitHub</a
+          >
+          <a
+            class="text-neutral-500 hover:text-white hover:opacity-70 transition-opacity"
+            href="#"
+            >LinkedIn</a
+          >
+          <a
+            class="text-neutral-500 hover:text-white hover:opacity-70 transition-opacity"
+            href="#"
+            >Email</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

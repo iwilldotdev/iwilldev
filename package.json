@@ -1,0 +1,30 @@
+{
+  "name": "iwilldev",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "author": "William Gonçalves",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/node": "^10.0.2",
+    "@astrojs/sitemap": "^3.7.1",
+    "aeo.js": "^0.0.12",
+    "astro": "^6.0.6",
+    "front-matter": "^4.0.2",
+    "highlight.js": "^11.11.1",
+    "lucide-astro": "^0.556.0",
+    "marked": "^17.0.4",
+    "marked-highlight": "^2.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "lightningcss": "^1.32.0",
+    "tailwindcss": "^4.2.2"
+  }
+}

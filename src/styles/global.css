@@ -1,0 +1,367 @@
+/* ═══════════════════════════════════════════════════════════
+ *  PRISM v2 Global Styles — iwill.dev
+ *  Pearl editorial structure × PRISM purple palette
+ *  Typography: Manrope unified. Layout: Pearl museum rhythm.
+ * ═══════════════════════════════════════════════════════════ */
+
+
+/* ─── Base Reset ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: var(--lh-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* Lenis smooth scroll */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+}
+
+/* ─── Selection ──────────────────────────────────────────── */
+::selection {
+  background: var(--color-brand);
+  color: var(--color-accent-lavender);
+}
+
+/* ─── Focus ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-brand-bright);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-glow);
+}
+
+/* ─── Links ──────────────────────────────────────────────── */
+a {
+  color: var(--color-brand-bright);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+a:hover {
+  color: var(--color-accent-lavender);
+}
+
+/* ─── Images ─────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Headings ───────────────────────────────────────────── 
+   Pearl: Typography hierarchy by weight, not size.
+   Headings use Manrope 500 (medium) for editorial elegance.
+   Bold (700) is reserved for emphasis within text.          */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-none);
+  color: var(--color-text-primary);
+}
+
+h1 { font-size: var(--fs-display); }
+h2 { font-size: var(--fs-h1); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); }
+h5 { font-size: var(--fs-body); }
+h6 { font-size: var(--fs-caption); }
+
+@media (max-width: 1099px) {
+  h1 { font-size: 52px; }
+  h2 { font-size: 32px; }
+  h3 { font-size: 22px; }
+}
+@media (max-width: 767px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 26px; }
+  h3 { font-size: 20px; }
+}
+
+/* ─── Paragraphs ─────────────────────────────────────────── */
+p {
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-24);
+}
+
+/* ─── Code (inline) ──────────────────────────────────────── */
+code {
+  font-family: 'Fira Code', 'Menlo', monospace;
+  font-size: 0.9em;
+  background: var(--color-surface-2);
+  color: var(--color-accent-lavender);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: var(--border-subtle);
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ─── Layout ─────────────────────────────────────────────── 
+   Pearl Museum Spacing:
+   - Sections: 160px padding desktop, 120px mobile
+   - Content never touches edges: 80px desktop, 16px mobile
+   - Container nesting: full-width wrapper + inner max-width */
+
+.pearl-section {
+  width: 100%;
+  padding: var(--space-160) var(--space-80);
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .pearl-section {
+    padding: var(--space-120) var(--space-16);
+  }
+}
+
+.pearl-container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+}
+
+/* ─── Pearl Text-Split Layout ────────────────────────────── 
+   Label 20% left + content 80% right. Collapses to stacked. */
+.text-split {
+  display: flex;
+  gap: var(--space-16);
+  width: 100%;
+}
+
+.text-split__label {
+  width: 20%;
+  flex: none;
+}
+
+.text-split__label p {
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
+  line-height: var(--lh-normal);
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  font-size: var(--fs-caption);
+}
+
+.text-split__content {
+  flex: 1;
+}
+
+@media (max-width: 767px) {
+  .text-split {
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+  .text-split__label {
+    width: 100%;
+  }
+}
+
+/* ─── Prose — Blog Post Styling ──────────────────────────── */
+.prose-prism {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.75em;
+  color: var(--color-text-secondary);
+  max-width: 72ch;
+}
+
+.prose-prism h1,
+.prose-prism h2,
+.prose-prism h3,
+.prose-prism h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-primary);
+  margin-top: var(--space-64);
+  margin-bottom: var(--space-24);
+}
+
+.prose-prism h1 { font-size: var(--fs-h1); }
+.prose-prism h2 { font-size: var(--fs-h3); }
+.prose-prism h3 { font-size: var(--fs-h4); }
+.prose-prism h4 { font-size: var(--fs-body); font-weight: var(--fw-semibold); }
+
+.prose-prism p {
+  margin-bottom: var(--space-24);
+}
+
+.prose-prism a {
+  color: var(--color-brand-bright);
+  text-decoration: underline;
+  text-decoration-color: var(--color-brand-glow);
+  text-underline-offset: 3px;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+.prose-prism a:hover {
+  color: var(--color-accent-lavender);
+  text-decoration-color: var(--color-accent-lavender);
+}
+
+.prose-prism strong {
+  color: var(--color-text-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.prose-prism em {
+  font-style: italic;
+}
+
+.prose-prism ul,
+.prose-prism ol {
+  margin-bottom: var(--space-24);
+  padding-left: var(--space-32);
+}
+
+.prose-prism li {
+  margin-bottom: var(--space-8);
+}
+
+.prose-prism li::marker {
+  color: var(--color-brand);
+}
+
+.prose-prism blockquote {
+  border-left: 3px solid var(--color-brand);
+  padding: var(--space-16) var(--space-24);
+  margin: var(--space-40) 0;
+  background: var(--color-brand-subtle);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.prose-prism pre {
+  background: var(--color-surface);
+  border: var(--border-thin);
+  border-radius: var(--radius-md);
+  padding: var(--space-24);
+  margin: var(--space-40) 0;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Menlo', monospace;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-normal);
+}
+
+.prose-prism pre code {
+  font-size: var(--fs-caption);
+  color: var(--color-text-primary);
+}
+
+.prose-prism img {
+  border-radius: var(--radius-md);
+  margin: var(--space-40) 0;
+  border: var(--border-thin);
+}
+
+.prose-prism hr {
+  border: none;
+  border-top: var(--border-subtle);
+  margin: var(--space-64) 0;
+}
+
+.prose-prism table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-40) 0;
+}
+
+.prose-prism th,
+.prose-prism td {
+  border: var(--border-thin);
+  padding: var(--space-12) var(--space-16);
+  text-align: left;
+}
+
+.prose-prism th {
+  background: var(--color-surface);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-caption);
+  color: var(--color-text-primary);
+}
+
+/* ─── Reveal Animations (initial state for GSAP) ─────────── */
+[data-reveal] {
+  visibility: hidden;
+}
+
+/* ─── Reduced Motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    visibility: visible !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+/* ─── Highlight.js Overrides ─────────────────────────────── */
+.hljs {
+  background: transparent !important;
+  color: var(--color-text-primary) !important;
+}
+.hljs-keyword { color: var(--color-brand-bright); }
+.hljs-string { color: var(--color-accent-mint); }
+.hljs-comment { color: var(--color-text-muted); font-style: italic; }
+.hljs-function { color: var(--color-accent-lavender); }
+.hljs-number { color: var(--color-accent-lime); }
+.hljs-title { color: var(--color-accent-lavender); }
+.hljs-params { color: var(--color-text-secondary); }
+.hljs-built_in { color: var(--color-brand-bright); }
+.hljs-literal { color: var(--color-accent-lime); }
+.hljs-type { color: var(--color-accent-lavender); }
+.hljs-attr { color: var(--color-brand-bright); }
+.hljs-meta { color: var(--color-text-muted); }
+.hljs-variable { color: var(--color-text-primary); }
+.hljs-property { color: var(--color-accent-lavender); }
+.hljs-punctuation { color: var(--color-text-muted); }
+.hljs-tag { color: var(--color-brand-bright); }
+.hljs-name { color: var(--color-brand-bright); }
+.hljs-selector-class { color: var(--color-accent-lavender); }
+.hljs-selector-id { color: var(--color-accent-lime); }

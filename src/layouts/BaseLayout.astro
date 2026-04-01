@@ -1,0 +1,384 @@
+---
+import type { Locale } from "@data/i18n";
+import { getDictionary } from "@data/i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  locale?: Locale;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/photo.webp",
+  locale = "pt",
+} = Astro.props;
+
+const dict = getDictionary(locale);
+const pageTitle = title || dict.meta.title;
+const pageDescription = description || dict.meta.description;
+const htmlLang = locale === "en" ? "en" : "pt-BR";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={htmlLang} class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={dict.meta.author} />
+    <meta
+      name="keywords"
+      content="portfolio, frontend, react, typescript, css, desenvolvedor, programação, conteúdo técnico, learn in public"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:site_name" content="iwill.dev" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fonts: Manrope (unified) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700;FILL@0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind Config -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms,container-queries" is:inline></script>
+    <script id="tailwind-config" is:inline>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              outline: "#666666",
+              "on-secondary-container": "#FFFFFF",
+              "on-surface": "#FFFFFF",
+              "tertiary-fixed": "#969696",
+              "on-secondary-fixed": "#FFFFFF",
+              tertiary: "#969696",
+              "surface-container-low": "#0a0a0a",
+              "on-secondary": "#000000",
+              "primary-container": "#FFFFFF",
+              "tertiary-container": "#333333",
+              "on-tertiary-container": "#FFFFFF",
+              "on-background": "#FFFFFF",
+              "inverse-primary": "#000000",
+              "on-tertiary-fixed": "#000000",
+              "on-tertiary": "#969696",
+              "surface-variant": "#1a1a1a",
+              "surface-bright": "#1a1a1a",
+              "on-primary-container": "#000000",
+              background: "#000000",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#969696",
+              "primary-fixed": "#FFFFFF",
+              "on-tertiary-fixed-variant": "#969696",
+              "primary-fixed-dim": "#e2e2e2",
+              "secondary-fixed": "#969696",
+              "on-surface-variant": "#969696",
+              "on-primary-fixed": "#000000",
+              "surface-dim": "#050505",
+              "surface-container-lowest": "#000000",
+              surface: "#000000",
+              "secondary-fixed-dim": "#666666",
+              primary: "#FFFFFF",
+              "inverse-on-surface": "#000000",
+              "secondary-container": "#1a1a1a",
+              "on-primary-fixed-variant": "#969696",
+              "surface-container-highest": "#333333",
+              error: "#ffb4ab",
+              "tertiary-fixed-dim": "#666666",
+              "error-container": "#93000a",
+              secondary: "#969696",
+              "on-error-container": "#ffdad6",
+              "surface-container": "#0a0a0a",
+              "outline-variant": "#333333",
+              "inverse-surface": "#FFFFFF",
+              "on-primary": "#000000",
+              "surface-tint": "#FFFFFF",
+              "surface-container-high": "#121212",
+            },
+            fontFamily: {
+              headline: ["Manrope", "sans-serif"],
+              body: ["Manrope", "sans-serif"],
+              label: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.125rem",
+              lg: "0.25rem",
+              xl: "0.5rem",
+              full: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+    <style is:global>
+      body {
+        font-family: "Manrope", sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .text-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+          padding 0.5s ease;
+      }
+      .accordion-item:hover .accordion-content {
+        max-height: 400px;
+        padding-bottom: 2rem;
+      }
+      .accordion-item:hover .expand-icon {
+        transform: rotate(45deg);
+      }
+    </style>
+
+    <!-- GSAP + ScrollTrigger + Lenis -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js" is:inline></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js" is:inline></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js" is:inline></script>
+  </head>
+
+  <body class="bg-surface selection:bg-primary selection:text-on-primary">
+    <slot />
+
+    <script is:inline>
+      ;(function () {
+        'use strict'
+
+        // ─── Pearl Easing & Duration ─────────────────────
+        var EASE = 'power2.out'
+        var DUR_FAST = 0.15
+        var DUR_NORMAL = 0.3
+        var DUR_SLOW = 0.5
+        var DUR_REVEAL = 0.8
+
+        var lenis = null
+
+        function prefersReducedMotion() {
+          return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        }
+
+        // ─── Init: Lenis (Pearl config) + GSAP ──────────
+        function init() {
+          if (typeof gsap === 'undefined') return
+          gsap.registerPlugin(ScrollTrigger)
+
+          if (typeof Lenis !== 'undefined') {
+            lenis = new Lenis({
+              duration: 1.2,
+              easing: function (t) {
+                return Math.min(1, 1.001 - Math.pow(2, -10 * t))
+              },
+              orientation: 'vertical',
+              gestureOrientation: 'vertical',
+              smoothWheel: true,
+              smoothTouch: false,
+              wheelMultiplier: 1,
+              touchMultiplier: 2,
+            })
+
+            lenis.on('scroll', ScrollTrigger.update)
+            gsap.ticker.add(function (time) {
+              lenis.raf(time * 1000)
+            })
+            gsap.ticker.lagSmoothing(0)
+          }
+        }
+
+        // ─── Section Fade In (Pearl signature) ──────────
+        function revealSections() {
+          var els = gsap.utils.toArray('[data-reveal]')
+          els.forEach(function (el) {
+            gsap.fromTo(
+              el,
+              { autoAlpha: 0, y: 40 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: DUR_REVEAL,
+                ease: EASE,
+                scrollTrigger: {
+                  trigger: el,
+                  start: 'top 85%',
+                  toggleActions: 'play none none none',
+                },
+              }
+            )
+          })
+        }
+
+        // ─── Nav Link Hover (Pearl slide-up) ────────────
+        function navLinkHovers() {
+          var links = gsap.utils.toArray('.pearl-nav-link')
+          links.forEach(function (link) {
+            var inner = link.querySelector('.pearl-nav-link__inner')
+            if (!inner) return
+
+            link.addEventListener('mouseenter', function () {
+              gsap.to(inner, { y: -22, duration: DUR_NORMAL, ease: EASE })
+            })
+            link.addEventListener('mouseleave', function () {
+              gsap.to(inner, { y: 0, duration: DUR_NORMAL, ease: EASE })
+            })
+          })
+        }
+
+        // ─── CTA Button Hover (Pearl scale + arrow) ────
+        function ctaButtonHovers() {
+          var buttons = gsap.utils.toArray('[data-cta-hover]')
+          buttons.forEach(function (btn) {
+            var arrow = btn.querySelector('.cta-arrow')
+
+            btn.addEventListener('mouseenter', function () {
+              gsap.to(btn, { scale: 1.02, duration: DUR_FAST, ease: EASE })
+              if (arrow) gsap.to(arrow, { x: 4, duration: DUR_FAST, ease: EASE })
+            })
+            btn.addEventListener('mouseleave', function () {
+              gsap.to(btn, { scale: 1, duration: DUR_FAST, ease: EASE })
+              if (arrow) gsap.to(arrow, { x: 0, duration: DUR_FAST, ease: EASE })
+            })
+          })
+        }
+
+        // ─── Accordion Toggle (Pearl expand/collapse) ───
+        function accordionInteractions() {
+          var items = gsap.utils.toArray('[data-accordion-item]')
+          items.forEach(function (item) {
+            var header = item.querySelector('[data-accordion-header]')
+            var content = item.querySelector('[data-accordion-content]')
+            var icon = item.querySelector('[data-accordion-icon]')
+            if (!header || !content) return
+
+            var isOpen = false
+            gsap.set(content, { height: 0, overflow: 'hidden', autoAlpha: 0 })
+
+            header.addEventListener('click', function () {
+              if (isOpen) {
+                gsap.to(content, { height: 0, autoAlpha: 0, duration: DUR_NORMAL, ease: EASE })
+                if (icon) gsap.to(icon, { rotation: 0, duration: DUR_NORMAL, ease: EASE })
+                isOpen = false
+              } else {
+                gsap.set(content, { height: 'auto' })
+                var h = content.offsetHeight
+                gsap.fromTo(content, { height: 0, autoAlpha: 0 }, { height: h, autoAlpha: 1, duration: DUR_NORMAL, ease: EASE })
+                if (icon) gsap.to(icon, { rotation: 45, duration: DUR_NORMAL, ease: EASE })
+                isOpen = true
+              }
+            })
+          })
+        }
+
+        // ─── Hamburger Toggle (Pearl 3-lines → X) ──────
+        function hamburgerToggle() {
+          var btn = document.querySelector('[data-hamburger]')
+          var menu = document.querySelector('[data-mobile-menu]')
+          if (!btn || !menu) return
+
+          var isOpen = false
+          var top = btn.querySelector('.hamburger-top')
+          var mid = btn.querySelector('.hamburger-mid')
+          var bottom = btn.querySelector('.hamburger-bottom')
+
+          btn.addEventListener('click', function () {
+            isOpen = !isOpen
+
+            if (isOpen) {
+              gsap.to(top, { top: '50%', y: -1, rotation: 45, duration: DUR_NORMAL, ease: 'power2.inOut' })
+              gsap.to(mid, { width: 1, autoAlpha: 0, duration: DUR_FAST, ease: 'power2.inOut' })
+              gsap.to(bottom, { top: '50%', y: -1, rotation: -45, duration: DUR_NORMAL, ease: 'power2.inOut' })
+              gsap.fromTo(menu, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, display: 'flex', duration: DUR_NORMAL, ease: EASE })
+            } else {
+              gsap.to(top, { top: '25%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
+              gsap.to(mid, { width: '100%', autoAlpha: 1, duration: DUR_FAST, ease: 'power2.inOut' })
+              gsap.to(bottom, { top: '75%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
+              gsap.to(menu, { autoAlpha: 0, y: -20, duration: DUR_NORMAL, ease: EASE, onComplete: function () { gsap.set(menu, { display: 'none' }) } })
+            }
+          })
+        }
+
+        // ─── Main Init ─────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function () {
+          if (prefersReducedMotion()) {
+            document
+              .querySelectorAll('[data-reveal]')
+              .forEach(function (el) {
+                el.style.visibility = 'visible'
+                el.style.opacity = '1'
+              })
+            return
+          }
+
+          init()
+
+          // Small delay to let DOM settle
+          setTimeout(function () {
+            revealSections()
+            navLinkHovers()
+            ctaButtonHovers()
+            accordionInteractions()
+            hamburgerToggle()
+          }, 100)
+        })
+      })()
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>

@@ -1,0 +1,45 @@
+---
+import type { Locale } from "@data/i18n";
+import { getDictionary } from "@data/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+
+function parseBold(text: string): string {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-medium">$1</strong>');
+}
+---
+
+<section class="py-40 md:py-64 px-6 md:px-12 bg-black" id="sobre" data-reveal>
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+    <div class="md:col-span-4">
+      <h2 class="font-bold tracking-[0.2em] uppercase text-white sticky top-32 text-xs">
+        {dict.about.title}
+      </h2>
+    </div>
+    
+    <div class="md:col-span-8">
+      <div class="space-y-12">
+        <p class="text-3xl md:text-5xl font-light leading-tight text-white" set:html={parseBold(dict.about.greeting)} />
+        
+        <div class="h-px w-24 bg-neutral-800"></div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-neutral-400 leading-relaxed text-lg">
+          <div class="space-y-6">
+            {dict.about.intro.map((p) => (
+              <p set:html={parseBold(p)} />
+            ))}
+          </div>
+          <div class="space-y-6">
+             <p set:html={parseBold(dict.about.history.part1)} />
+             <p set:html={parseBold(dict.about.history.part2)} />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

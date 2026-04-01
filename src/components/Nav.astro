@@ -1,0 +1,60 @@
+---
+import type { Locale } from "@data/i18n";
+import { getDictionary, localePath } from "@data/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+
+const navItems = [
+  { label: dict.nav.home, href: localePath("/", locale) },
+  { label: dict.nav.posts, href: localePath("/posts", locale) },
+];
+
+const otherLocale = locale === "pt" ? "en" : "pt";
+const switchHref =
+  locale === "pt"
+    ? "/en" + (Astro.url.pathname === "/" ? "" : Astro.url.pathname)
+    : Astro.url.pathname.replace(/^\/en/, "") || "/";
+---
+
+<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl flex justify-between items-center px-6 md:px-12 py-6">
+  <a href={localePath("/", locale)} class="font-manrope font-bold text-xl tracking-tighter text-white">
+    iwill.dev
+  </a>
+
+  <!-- Desktop Nav -->
+  <div class="hidden md:flex gap-12 items-center">
+    {navItems.map((item) => {
+      const isPosts = item.href.includes('/posts');
+      const isActive = (Astro.url.pathname.includes('/posts') && isPosts) || (Astro.url.pathname === '/' && !isPosts);
+      
+      return (
+        <a 
+          href={item.href} 
+          class={`font-manrope font-light tracking-tight text-sm uppercase transition-colors hover:text-white ${isActive ? "text-white font-bold border-b border-white pb-1" : "text-neutral-400"}`}
+        >
+          {item.label}
+        </a>
+      );
+    })}
+
+    <!-- Language Switcher -->
+    <a href={switchHref} class="font-manrope font-light tracking-tight text-sm uppercase text-neutral-400 hover:text-white transition-colors" aria-label="Switch language">
+      {otherLocale.toUpperCase()}
+    </a>
+  </div>
+
+  <!-- Mobile Actions -->
+  <div class="flex items-center gap-4">
+    <a href={switchHref} class="md:hidden font-manrope text-sm uppercase text-neutral-400 hover:text-white">
+      {otherLocale.toUpperCase()}
+    </a>
+    <button class="md:hidden material-symbols-outlined text-white hover:opacity-70 transition-opacity" aria-label="Menu" data-hamburger>
+      menu
+    </button>
+  </div>
+</nav>

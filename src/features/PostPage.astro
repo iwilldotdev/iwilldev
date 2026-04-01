@@ -1,0 +1,108 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Nav from "@components/Nav.astro";
+import Footer from "@components/Footer.astro";
+import { getDictionary, localePath } from "@data/i18n";
+import { getPosts, getPost } from "@lib/posts";
+import type { Locale } from "@data/i18n";
+import type { PostData } from "@lib/posts";
+import { ArrowRight, ArrowLeft } from "lucide-astro";
+import "highlight.js/styles/github-dark.css";
+import path from "node:path";
+
+interface Props {
+  locale: Locale;
+  slug: string;
+}
+
+const { locale, slug } = Astro.props;
+const dict = getDictionary(locale);
+const post = getPost(slug, locale);
+
+if (!post) {
+  return Astro.redirect(locale === "pt" ? "/posts" : "/en/posts");
+}
+
+// Check for translation
+const otherLocale = locale === "pt" ? "en" : "pt";
+const otherPosts = getPosts(otherLocale);
+const hasTranslation = otherPosts.some((p) => p.slug === slug || p.i18n === slug);
+const translationSlug = otherPosts.find((p) => p.slug === slug || p.i18n === slug)?.slug;
+
+const dateOptions: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+const dateFormatted = new Date(post.date).toLocaleDateString(
+  locale === "pt" ? "pt-BR" : "en-US", 
+  dateOptions
+);
+
+/* Texts depending on locale */
+const backText = locale === "pt" ? "Voltar para artigos" : "Back to articles";
+const translationText = locale === "pt" ? "Read in English" : "Ler em Português";
+const translationUrl = locale === "pt" ? `/en/posts/${translationSlug}` : `/posts/${translationSlug}`;
+const backUrl = locale === "pt" ? "/posts" : "/en/posts";
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${post.title} — ${dict.meta.title}`}
+  description={post.description || post.title}
+  ogImage={`/bg-covers/${post.backgroundImage}.jpg`}
+>
+  <Nav locale={locale} />
+
+  <article class="min-h-screen bg-black" data-reveal>
+    <header class="pt-60 pb-20 px-8 max-w-7xl mx-auto border-b border-neutral-800">
+      <div class="flex items-center flex-wrap gap-4 text-xs font-bold tracking-[0.2em] text-neutral-500 uppercase mb-8">
+        {post.tags && post.tags.length > 0 && (
+          <span>{post.tags[0]}</span>
+        )}
+        <span>—</span>
+        <time datetime={post.date}>{dateFormatted}</time>
+        <span>—</span>
+        <span>{post.readingTime} {dict.posts.minutesOfReading}</span>
+      </div>
+
+      <h1 class="text-[clamp(2.5rem,6vw,5rem)] font-light tracking-tight leading-[1] text-white mb-8">
+        {post.title}
+      </h1>
+
+      {post.description && (
+        <p class="text-xl md:text-2xl text-neutral-400 font-light leading-relaxed max-w-3xl mb-12">
+          {post.description}
+        </p>
+      )}
+    </header>
+
+    <div class="px-8 py-20 max-w-4xl mx-auto">
+      <div class="prose prose-invert prose-lg prose-neutral font-light leading-relaxed text-neutral-300 mx-auto w-full max-w-none
+                  prose-headings:font-manrope prose-headings:font-medium prose-headings:text-white prose-headings:tracking-tight
+                  prose-a:text-white prose-a:underline-offset-4 hover:prose-a:text-neutral-300 prose-a:transition-colors
+                  prose-code:text-neutral-200 prose-code:bg-neutral-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-sm
+                  prose-pre:bg-[#0a0a0a] prose-pre:border prose-pre:border-neutral-800
+                  prose-blockquote:border-l-2 prose-blockquote:border-white prose-blockquote:text-neutral-400 prose-blockquote:font-light prose-blockquote:italic"
+           set:html={post.body} />
+
+      {hasTranslation && translationSlug && (
+        <div class="mt-20 pt-10 border-t border-neutral-800 flex justify-end">
+          <a href={translationUrl} class="group flex items-center gap-4 text-xs font-bold tracking-[0.2em] text-white uppercase hover:text-neutral-400 transition-colors">
+            <span>{translationText}</span>
+            <ArrowRight class="w-5 h-5 transform group-hover:translate-x-2 transition-transform" />
+          </a>
+        </div>
+      )}
+
+      <div class="mt-20">
+        <a href={backUrl} class="group inline-flex items-center gap-4 text-xs font-bold tracking-[0.2em] text-neutral-500 uppercase hover:text-white transition-colors">
+          <ArrowLeft class="w-5 h-5 transform group-hover:-translate-x-2 transition-transform" />
+          {backText}
+        </a>
+      </div>
+    </div>
+  </article>
+
+  <Footer locale={locale} />
+</BaseLayout>

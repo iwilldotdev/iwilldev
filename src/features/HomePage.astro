@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Nav from "@components/Nav.astro";
+import Hero from "@components/Hero.astro";
+import About from "@components/About.astro";
+import Experience from "@components/Experience.astro";
+import Education from "@components/Education.astro";
+import Certifications from "@components/Certifications.astro";
+import Skills from "@components/Skills.astro";
+import Footer from "@components/Footer.astro";
+import BlogCard from "@components/BlogCard.astro";
+import { getDictionary } from "@data/i18n";
+import { getPosts } from "@lib/posts";
+import type { Locale } from "@data/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+const latestPosts = getPosts(locale).slice(0, 3);
+---
+
+<BaseLayout locale={locale}>
+  <Nav locale={locale} />
+  
+  <main>
+    <Hero locale={locale} />
+    <About locale={locale} />
+    <Experience locale={locale} />
+    <Education locale={locale} />
+    <Certifications locale={locale} />
+    <Skills locale={locale} />
+
+    <!-- Latest Posts Preview -->
+    {latestPosts.length > 0 && (
+      <section id="posts" class="py-40 md:py-64 px-6 md:px-12 bg-black" data-reveal>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24">
+          <div class="md:col-span-4">
+            <h2 class="font-bold tracking-[0.2em] uppercase text-white sticky top-32 text-xs">
+              {dict.nav.posts}
+            </h2>
+          </div>
+          <div class="md:col-span-8 flex flex-col">
+            <div class="flex flex-col mb-16">
+              {latestPosts.map((post) => (
+                <BlogCard post={post} locale={locale} />
+              ))}
+            </div>
+
+            <div class="flex justify-center" data-reveal>
+              <a href={locale === "pt" ? "/posts" : "/en/posts"} class="group relative px-8 py-4 border border-neutral-700 text-white rounded-sm overflow-hidden transition-all duration-300 hover:border-white">
+                <span class="relative z-10 font-bold tracking-widest uppercase text-xs">
+                  {locale === "pt" ? "Ver todos os artigos" : "See all articles"}
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>

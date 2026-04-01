@@ -1,0 +1,54 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Nav from "@components/Nav.astro";
+import Footer from "@components/Footer.astro";
+import BlogCard from "@components/BlogCard.astro";
+import { getDictionary } from "@data/i18n";
+import { getPosts } from "@lib/posts";
+import type { Locale } from "@data/i18n";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+const posts = getPosts(locale);
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${dict.nav.posts} — ${dict.meta.title}`}
+  description={locale === "pt" ? "Artigos sobre desenvolvimento web, TypeScript, React e mais." : "Articles about web development, TypeScript, React and more."}
+>
+  <Nav locale={locale} />
+
+  <main class="min-h-screen bg-black" data-reveal>
+    <section class="pt-60 pb-40 px-8 max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end gap-8">
+        <h1 class="text-[clamp(4rem,12vw,10rem)] leading-[0.85] font-medium tracking-tighter text-white">
+          {dict.nav.posts}
+        </h1>
+        <p class="max-w-xs text-neutral-400 font-light leading-relaxed mb-6">
+          {locale === "pt" ? "Reflexões, tutoriais e descobertas sobre desenvolvimento web, TypeScript, React e o que mais eu estiver aprendendo." : "Thoughts, tutorials and findings about web development, TypeScript, React and whatever else I'm learning."}
+        </p>
+      </div>
+    </section>
+
+    <section class="px-8 max-w-7xl mx-auto pb-60">
+      <div class="flex flex-col">
+        {posts.map((post) => (
+          <BlogCard post={post} locale={locale} />
+        ))}
+      </div>
+
+      {posts.length === 0 && (
+        <div class="text-center py-40 text-neutral-500 font-light">
+          <p>{locale === "pt" ? "Nenhum artigo publicado ainda." : "No articles published yet."}</p>
+        </div>
+      )}
+    </section>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
