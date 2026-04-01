@@ -17,6 +17,11 @@ export default defineConfig({
       description:
         "Senior Frontend Engineer com mais de 10 anos de experiência em desenvolvimento web. Especialista em arquitetura React (Remix, React Router, Next.js), TypeScript e Design Systems.",
       url: "https://iwill.dev",
+      schema: {
+        organization: {
+          logo: "https://iwill.dev/android-chrome-512x512.png",
+        },
+      },
     }),
   ],
   redirects: {
