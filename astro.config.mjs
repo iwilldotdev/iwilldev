@@ -20,6 +20,16 @@ export default defineConfig({
       schema: {
         organization: {
           logo: "https://iwill.dev/android-chrome-512x512.png",
+          sameAs: [
+            "https://github.com/iwilldotdev",
+            "https://linkedin.com/in/iwilldotdev",
+            "https://x.com/iwilldotdev",
+            "https://instagram.com/iwilldotdev",
+            "https://t.me/iwilldotdev",
+            "https://youtube.com/@iwilldotdev",
+            "https://tiktok.com/@iwilldotdev",
+            "tel:+5521965443935",
+          ],
         },
       },
     }),

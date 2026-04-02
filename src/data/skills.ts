@@ -6,6 +6,7 @@ export interface Skill {
 
 export const coreSkills: Skill[] = [
   { label: "React", name: "react", level: "pro" },
+  { label: "Astro", name: "astro", level: "pro" },
   { label: "TypeScript", name: "typescript", level: "pro" },
   { label: "JavaScript", name: "javascript", level: "pro" },
   { label: "React Router", name: "reactrouter", level: "pro" },
