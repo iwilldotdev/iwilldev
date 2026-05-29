@@ -19,3 +19,5 @@ public/posts-en/**/*.md
 /test-results/
 /playwright-report/
 /blob-report/
+
+.compozy
