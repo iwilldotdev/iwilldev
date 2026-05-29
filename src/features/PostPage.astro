@@ -45,7 +45,7 @@ const backUrl = locale === "pt" ? "/posts" : "/en/posts";
   locale={locale}
   title={`${post.title} — ${dict.meta.title}`}
   description={post.description || post.title}
-  ogImage={`/bg-covers/${post.backgroundImage}.jpg`}
+  ogImage={`/post-covers/${locale === "pt" ? "pt" : "en"}/${slug}.jpg`}
 >
   <Nav locale={locale} />
 
