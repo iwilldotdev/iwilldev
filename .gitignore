@@ -2,3 +2,19 @@ node_modules
 dist
 
 .astro
+
+# aeo.js writes these into public/ during dev (regenerated on build)
+public/llms.txt
+public/llms-full.txt
+public/docs.json
+public/ai-index.json
+public/schema.json
+public/robots.txt
+public/sitemap.xml
+public/posts/**/*.md
+public/posts-en/**/*.md
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
