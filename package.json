@@ -7,22 +7,25 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "author": "William Gonçalves",
   "license": "MIT",
   "dependencies": {
     "@astrojs/node": "^10.0.2",
     "@astrojs/sitemap": "^3.7.1",
+    "@lucide/astro": "^1.16.0",
     "aeo.js": "^0.0.12",
     "astro": "^6.0.6",
     "front-matter": "^4.0.2",
     "highlight.js": "^11.11.1",
-    "lucide-astro": "^0.556.0",
     "marked": "^17.0.4",
     "marked-highlight": "^2.2.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/typography": "^0.5.19",
     "lightningcss": "^1.32.0",
     "tailwindcss": "^4.2.2"
