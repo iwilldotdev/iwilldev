@@ -78,8 +78,44 @@ export function getPost(slug: string, lang: "pt" | "en"): PostData | null {
   return parsePost(filePath, slug);
 }
 
-export function hasTranslation(slug: string, lang: "pt" | "en"): boolean {
+/** Slug of the post in the other locale, or null if none exists. */
+export function getTranslationSlug(slug: string, lang: "pt" | "en"): string | null {
   const otherLang = lang === "pt" ? "en" : "pt";
   const dir = getPostsDir(otherLang);
-  return fs.existsSync(path.join(dir, `${slug}.md`));
+
+  if (fs.existsSync(path.join(dir, `${slug}.md`))) {
+    return slug;
+  }
+
+  const current = getPost(slug, lang);
+  if (current?.i18n && fs.existsSync(path.join(dir, `${current.i18n}.md`))) {
+    return current.i18n;
+  }
+
+  const linked = getPosts(otherLang).find((p) => p.i18n === slug);
+  return linked ? linked.slug : null;
+}
+
+export function hasTranslation(slug: string, lang: "pt" | "en"): boolean {
+  return getTranslationSlug(slug, lang) !== null;
+}
+
+/** Language switch target for post detail URLs; falls back to posts index. */
+export function getPostLanguageSwitchHref(
+  pathname: string,
+  locale: "pt" | "en"
+): string | null {
+  const match =
+    locale === "pt"
+      ? pathname.match(/^\/posts\/([^/]+)\/?$/)
+      : pathname.match(/^\/en\/posts\/([^/]+)\/?$/);
+
+  if (!match) return null;
+
+  const slug = match[1];
+  const otherSlug = getTranslationSlug(slug, locale);
+  if (otherSlug) {
+    return locale === "pt" ? `/en/posts/${otherSlug}` : `/posts/${otherSlug}`;
+  }
+  return locale === "pt" ? "/en/posts" : "/posts";
 }

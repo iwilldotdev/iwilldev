@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "@data/i18n";
 import { getDictionary, localePath } from "@data/i18n";
+import { getPostLanguageSwitchHref } from "@lib/posts";
 
 interface Props {
   locale: Locale;
@@ -15,13 +16,15 @@ const navItems = [
 ];
 
 const otherLocale = locale === "pt" ? "en" : "pt";
+const postSwitchHref = getPostLanguageSwitchHref(Astro.url.pathname, locale);
 const switchHref =
-  locale === "pt"
+  postSwitchHref ??
+  (locale === "pt"
     ? "/en" + (Astro.url.pathname === "/" ? "" : Astro.url.pathname)
-    : Astro.url.pathname.replace(/^\/en/, "") || "/";
+    : Astro.url.pathname.replace(/^\/en/, "") || "/");
 ---
 
-<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl flex justify-between items-center px-6 md:px-12 py-6">
+<nav class="fixed top-0 w-full z-[70] bg-black/80 backdrop-blur-xl flex justify-between items-center px-6 md:px-12 py-6">
   <a href={localePath("/", locale)} class="font-manrope font-bold text-xl tracking-tighter text-white">
     iwill.dev
   </a>
@@ -29,8 +32,10 @@ const switchHref =
   <!-- Desktop Nav -->
   <div class="hidden md:flex gap-12 items-center">
     {navItems.map((item) => {
-      const isPosts = item.href.includes('/posts');
-      const isActive = (Astro.url.pathname.includes('/posts') && isPosts) || (Astro.url.pathname === '/' && !isPosts);
+      const isPosts = item.href.includes("/posts");
+      const isHomePath = Astro.url.pathname === "/" || Astro.url.pathname === "/en";
+      const isActive =
+        (Astro.url.pathname.includes("/posts") && isPosts) || (isHomePath && !isPosts);
       
       return (
         <a 
@@ -49,12 +54,55 @@ const switchHref =
   </div>
 
   <!-- Mobile Actions -->
-  <div class="flex items-center gap-4">
-    <a href={switchHref} class="md:hidden font-manrope text-sm uppercase text-neutral-400 hover:text-white">
+  <div class="flex items-center gap-4 md:hidden">
+    <a href={switchHref} class="font-manrope text-sm uppercase text-neutral-400 hover:text-white">
       {otherLocale.toUpperCase()}
     </a>
-    <button class="md:hidden material-symbols-outlined text-white hover:opacity-70 transition-opacity" aria-label="Menu" data-hamburger>
-      menu
+    <button
+      type="button"
+      class="relative w-12 h-12 flex-shrink-0"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-hamburger
+    >
+      <span class="hamburger-top absolute left-1/2 -translate-x-1/2 block w-6 h-px bg-white" style="top: 25%"></span>
+      <span class="hamburger-mid absolute left-1/2 -translate-x-1/2 block w-6 h-px bg-white" style="top: 50%"></span>
+      <span class="hamburger-bottom absolute left-1/2 -translate-x-1/2 block w-6 h-px bg-white" style="top: 75%"></span>
     </button>
   </div>
 </nav>
+
+<!-- Mobile full-page menu -->
+<div
+  id="mobile-menu"
+  data-mobile-menu
+  class="fixed inset-0 z-[60] bg-black hidden flex-col items-center justify-center gap-10 px-6"
+  aria-hidden="true"
+>
+  {navItems.map((item) => {
+    const isPosts = item.href.includes("/posts");
+    const isHomePath = Astro.url.pathname === "/" || Astro.url.pathname === "/en";
+    const isActive =
+      (Astro.url.pathname.includes("/posts") && isPosts) || (isHomePath && !isPosts);
+
+    return (
+      <a
+        href={item.href}
+        data-mobile-nav-link
+        class={`font-manrope text-4xl font-light tracking-tight uppercase transition-opacity hover:opacity-70 ${
+          isActive ? "text-white" : "text-neutral-400"
+        }`}
+      >
+        {item.label}
+      </a>
+    );
+  })}
+  <a
+    href={switchHref}
+    data-mobile-nav-link
+    class="font-manrope text-sm uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mt-4"
+  >
+    {otherLocale.toUpperCase()}
+  </a>
+</div>
