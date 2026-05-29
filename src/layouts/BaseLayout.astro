@@ -171,18 +171,11 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
           transform: translateY(0);
         }
       }
-      .accordion-content {
-        max-height: 0;
+      /* Accordions with data-accordion-* are driven by JS (click/tap). */
+      [data-accordion-item] .accordion-content {
         overflow: hidden;
-        transition:
-          max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-          padding 0.5s ease;
       }
-      .accordion-item:hover .accordion-content {
-        max-height: 400px;
-        padding-bottom: 2rem;
-      }
-      .accordion-item:hover .expand-icon {
+      [data-accordion-item].is-open .expand-icon {
         transform: rotate(45deg);
       }
     </style>
@@ -213,6 +206,12 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
           return window.matchMedia('(prefers-reduced-motion: reduce)').matches
         }
 
+        function refreshScrollTriggers() {
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.refresh()
+          }
+        }
+
         // ─── Init: Lenis (Pearl config) + GSAP ──────────
         function init() {
           if (typeof gsap === 'undefined') return
@@ -233,6 +232,29 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
             })
 
             lenis.on('scroll', ScrollTrigger.update)
+
+            // Lenis smooth-scroll uses virtual position; proxy keeps ScrollTrigger in sync.
+            ScrollTrigger.scrollerProxy(document.documentElement, {
+              scrollTop: function (value) {
+                if (arguments.length) {
+                  lenis.scrollTo(value, { immediate: true })
+                }
+                return lenis.scroll
+              },
+              getBoundingClientRect: function () {
+                return {
+                  top: 0,
+                  left: 0,
+                  width: window.innerWidth,
+                  height: window.innerHeight,
+                }
+              },
+            })
+
+            ScrollTrigger.addEventListener('refresh', function () {
+              lenis.resize()
+            })
+
             gsap.ticker.add(function (time) {
               lenis.raf(time * 1000)
             })
@@ -256,6 +278,7 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
                   trigger: el,
                   start: 'top 85%',
                   toggleActions: 'play none none none',
+                  invalidateOnRefresh: true,
                 },
               }
             )
@@ -296,8 +319,8 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         }
 
         // ─── Accordion Toggle (Pearl expand/collapse) ───
-        function accordionInteractions() {
-          var items = gsap.utils.toArray('[data-accordion-item]')
+        function accordionInteractions(instant) {
+          var items = document.querySelectorAll('[data-accordion-item]')
           items.forEach(function (item) {
             var header = item.querySelector('[data-accordion-header]')
             var content = item.querySelector('[data-accordion-content]')
@@ -305,26 +328,70 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
             if (!header || !content) return
 
             var isOpen = false
-            gsap.set(content, { height: 0, overflow: 'hidden', autoAlpha: 0 })
+
+            function setClosed() {
+              item.classList.remove('is-open')
+              isOpen = false
+              if (instant) {
+                content.style.height = '0'
+                content.style.opacity = '0'
+                if (icon) icon.style.transform = ''
+                return
+              }
+              if (typeof gsap === 'undefined') return
+              gsap.to(content, {
+                height: 0,
+                autoAlpha: 0,
+                duration: DUR_NORMAL,
+                ease: EASE,
+                onComplete: refreshScrollTriggers,
+              })
+              if (icon) gsap.to(icon, { rotation: 0, duration: DUR_NORMAL, ease: EASE })
+            }
+
+            function setOpen() {
+              item.classList.add('is-open')
+              isOpen = true
+              if (instant) {
+                content.style.height = 'auto'
+                content.style.opacity = '1'
+                if (icon) icon.style.transform = 'rotate(45deg)'
+                return
+              }
+              if (typeof gsap === 'undefined') return
+              gsap.set(content, { height: 'auto', overflow: 'hidden' })
+              var h = content.offsetHeight
+              gsap.fromTo(
+                content,
+                { height: 0, autoAlpha: 0, overflow: 'hidden' },
+                {
+                  height: h,
+                  autoAlpha: 1,
+                  duration: DUR_NORMAL,
+                  ease: EASE,
+                  onComplete: refreshScrollTriggers,
+                }
+              )
+              if (icon) gsap.to(icon, { rotation: 45, duration: DUR_NORMAL, ease: EASE })
+            }
+
+            if (instant) {
+              content.style.overflow = 'hidden'
+              content.style.height = '0'
+              content.style.opacity = '0'
+            } else if (typeof gsap !== 'undefined') {
+              gsap.set(content, { height: 0, overflow: 'hidden', autoAlpha: 0 })
+            }
 
             header.addEventListener('click', function () {
-              if (isOpen) {
-                gsap.to(content, { height: 0, autoAlpha: 0, duration: DUR_NORMAL, ease: EASE })
-                if (icon) gsap.to(icon, { rotation: 0, duration: DUR_NORMAL, ease: EASE })
-                isOpen = false
-              } else {
-                gsap.set(content, { height: 'auto' })
-                var h = content.offsetHeight
-                gsap.fromTo(content, { height: 0, autoAlpha: 0 }, { height: h, autoAlpha: 1, duration: DUR_NORMAL, ease: EASE })
-                if (icon) gsap.to(icon, { rotation: 45, duration: DUR_NORMAL, ease: EASE })
-                isOpen = true
-              }
+              if (isOpen) setClosed()
+              else setOpen()
             })
           })
         }
 
         // ─── Hamburger Toggle (Pearl 3-lines → X) ──────
-        function hamburgerToggle() {
+        function hamburgerToggle(instant) {
           var btn = document.querySelector('[data-hamburger]')
           var menu = document.querySelector('[data-mobile-menu]')
           if (!btn || !menu) return
@@ -334,44 +401,136 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
           var mid = btn.querySelector('.hamburger-mid')
           var bottom = btn.querySelector('.hamburger-bottom')
 
-          btn.addEventListener('click', function () {
-            isOpen = !isOpen
-
-            if (isOpen) {
-              gsap.to(top, { top: '50%', y: -1, rotation: 45, duration: DUR_NORMAL, ease: 'power2.inOut' })
-              gsap.to(mid, { width: 1, autoAlpha: 0, duration: DUR_FAST, ease: 'power2.inOut' })
-              gsap.to(bottom, { top: '50%', y: -1, rotation: -45, duration: DUR_NORMAL, ease: 'power2.inOut' })
-              gsap.fromTo(menu, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, display: 'flex', duration: DUR_NORMAL, ease: EASE })
-            } else {
-              gsap.to(top, { top: '25%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
-              gsap.to(mid, { width: '100%', autoAlpha: 1, duration: DUR_FAST, ease: 'power2.inOut' })
-              gsap.to(bottom, { top: '75%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
-              gsap.to(menu, { autoAlpha: 0, y: -20, duration: DUR_NORMAL, ease: EASE, onComplete: function () { gsap.set(menu, { display: 'none' }) } })
+          function setIconOpen() {
+            if (instant || typeof gsap === 'undefined') {
+              if (top) {
+                top.style.top = '50%'
+                top.style.transform = 'translateX(-50%) translateY(-1px) rotate(45deg)'
+              }
+              if (mid) {
+                mid.style.opacity = '0'
+                mid.style.width = '1px'
+              }
+              if (bottom) {
+                bottom.style.top = '50%'
+                bottom.style.transform = 'translateX(-50%) translateY(-1px) rotate(-45deg)'
+              }
+              return
             }
+            gsap.to(top, { top: '50%', y: -1, rotation: 45, duration: DUR_NORMAL, ease: 'power2.inOut' })
+            gsap.to(mid, { width: 1, autoAlpha: 0, duration: DUR_FAST, ease: 'power2.inOut' })
+            gsap.to(bottom, { top: '50%', y: -1, rotation: -45, duration: DUR_NORMAL, ease: 'power2.inOut' })
+          }
+
+          function setIconClosed() {
+            if (instant || typeof gsap === 'undefined') {
+              if (top) {
+                top.style.top = '25%'
+                top.style.transform = 'translateX(-50%)'
+              }
+              if (mid) {
+                mid.style.opacity = '1'
+                mid.style.width = '1.5rem'
+              }
+              if (bottom) {
+                bottom.style.top = '75%'
+                bottom.style.transform = 'translateX(-50%)'
+              }
+              return
+            }
+            gsap.to(top, { top: '25%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
+            gsap.to(mid, { width: '100%', autoAlpha: 1, duration: DUR_FAST, ease: 'power2.inOut' })
+            gsap.to(bottom, { top: '75%', y: 0, rotation: 0, duration: DUR_NORMAL, ease: 'power2.inOut' })
+          }
+
+          function openMenu() {
+            isOpen = true
+            btn.setAttribute('aria-expanded', 'true')
+            menu.setAttribute('aria-hidden', 'false')
+            document.body.style.overflow = 'hidden'
+            setIconOpen()
+            if (instant || typeof gsap === 'undefined') {
+              menu.style.display = 'flex'
+              menu.style.opacity = '1'
+              return
+            }
+            gsap.fromTo(menu, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, display: 'flex', duration: DUR_NORMAL, ease: EASE })
+          }
+
+          function closeMenu() {
+            isOpen = false
+            btn.setAttribute('aria-expanded', 'false')
+            menu.setAttribute('aria-hidden', 'true')
+            document.body.style.overflow = ''
+            setIconClosed()
+            if (instant || typeof gsap === 'undefined') {
+              menu.style.opacity = '0'
+              menu.style.display = 'none'
+              return
+            }
+            gsap.to(menu, {
+              autoAlpha: 0,
+              y: -20,
+              duration: DUR_NORMAL,
+              ease: EASE,
+              onComplete: function () {
+                gsap.set(menu, { display: 'none' })
+              },
+            })
+          }
+
+          if (instant || typeof gsap === 'undefined') {
+            menu.style.display = 'none'
+            menu.style.opacity = '0'
+          } else {
+            gsap.set(menu, { display: 'none', autoAlpha: 0 })
+          }
+
+          btn.addEventListener('click', function () {
+            if (isOpen) closeMenu()
+            else openMenu()
+          })
+
+          menu.querySelectorAll('[data-mobile-nav-link]').forEach(function (link) {
+            link.addEventListener('click', function () {
+              if (isOpen) closeMenu()
+            })
+          })
+
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isOpen) closeMenu()
           })
         }
 
         // ─── Main Init ─────────────────────────────────
         document.addEventListener('DOMContentLoaded', function () {
-          if (prefersReducedMotion()) {
-            document
-              .querySelectorAll('[data-reveal]')
-              .forEach(function (el) {
-                el.style.visibility = 'visible'
-                el.style.opacity = '1'
-              })
-            return
-          }
+          var reducedMotion = prefersReducedMotion()
 
-          init()
+          if (reducedMotion) {
+            document.querySelectorAll('[data-reveal]').forEach(function (el) {
+              el.style.visibility = 'visible'
+              el.style.opacity = '1'
+            })
+          } else {
+            init()
+          }
 
           // Small delay to let DOM settle
           setTimeout(function () {
-            revealSections()
-            navLinkHovers()
-            ctaButtonHovers()
-            accordionInteractions()
-            hamburgerToggle()
+            if (!reducedMotion) {
+              revealSections()
+              navLinkHovers()
+              ctaButtonHovers()
+              refreshScrollTriggers()
+              requestAnimationFrame(refreshScrollTriggers)
+              window.addEventListener('load', refreshScrollTriggers, { once: true })
+              window.addEventListener('resize', refreshScrollTriggers)
+            }
+            hamburgerToggle(reducedMotion)
+            accordionInteractions(reducedMotion)
+            if (!reducedMotion) {
+              setTimeout(refreshScrollTriggers, 400)
+            }
           }, 100)
         })
       })()
