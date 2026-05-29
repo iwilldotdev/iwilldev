@@ -22,6 +22,13 @@ export const en: Dictionary = {
   hero: {
     tagline: "Building solutions that bridge people and technology.",
     tags: ["FRONTEND ENGINEER", "REACT/TYPESCRIPT", "AI/ML ENTHUSIAST"],
+    scrollHint: "Scroll to explore",
+  },
+  notFound: {
+    title: "Page not found",
+    description:
+      "The content you are looking for is not here. It may have been moved or no longer exists.",
+    backHome: "Back to home",
   },
   about: {
     title: "About me",

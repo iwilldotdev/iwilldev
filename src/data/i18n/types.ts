@@ -20,6 +20,12 @@ export type Dictionary = {
   hero: {
     tagline: string;
     tags: string[];
+    scrollHint: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    backHome: string;
   };
   about: {
     title: string;

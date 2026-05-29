@@ -22,6 +22,13 @@ export const pt: Dictionary = {
   hero: {
     tagline: "Construindo soluções que aproximam pessoas e tecnologias.",
     tags: ["FRONTEND ENGINEER", "REACT/TYPESCRIPT", "AI/ML ENTHUSIAST"],
+    scrollHint: "Role para explorar",
+  },
+  notFound: {
+    title: "Página não encontrada",
+    description:
+      "O conteúdo que você procura não está aqui. Ele pode ter sido movido ou não existir mais.",
+    backHome: "Voltar para o início",
   },
   about: {
     title: "Sobre mim",
