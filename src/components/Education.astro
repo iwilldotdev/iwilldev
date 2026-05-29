@@ -1,7 +1,7 @@
 ---
 import type { Locale } from "@data/i18n";
 import { getDictionary } from "@data/i18n";
-import { Plus } from "lucide-astro";
+import { Plus } from "@lucide/astro";
 
 interface Props {
   locale: Locale;
@@ -36,11 +36,13 @@ const dict = getDictionary(locale);
                 <Plus class="w-8 h-8 font-extralight" strokeWidth={1} />
               </div>
             </div>
-            <div class="accordion-content" data-accordion-content>
-              <p class="text-lg text-neutral-400 font-light leading-relaxed max-w-2xl py-6 whitespace-pre-line">
-                {item.description || '...'}
-              </p>
-            </div>
+            {item.description && (
+              <div class="accordion-content" data-accordion-content>
+                <p class="text-lg text-neutral-400 font-light leading-relaxed max-w-2xl py-6 whitespace-pre-line">
+                  {item.description}
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>

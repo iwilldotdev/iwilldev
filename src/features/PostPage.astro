@@ -3,12 +3,10 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Nav from "@components/Nav.astro";
 import Footer from "@components/Footer.astro";
 import { getDictionary, localePath } from "@data/i18n";
-import { getPosts, getPost } from "@lib/posts";
+import { getPost, getTranslationSlug, hasTranslation } from "@lib/posts";
 import type { Locale } from "@data/i18n";
-import type { PostData } from "@lib/posts";
-import { ArrowRight, ArrowLeft } from "lucide-astro";
+import { ArrowRight, ArrowLeft } from "@lucide/astro";
 import "highlight.js/styles/github-dark.css";
-import path from "node:path";
 
 interface Props {
   locale: Locale;
@@ -23,11 +21,8 @@ if (!post) {
   return Astro.redirect(locale === "pt" ? "/posts" : "/en/posts");
 }
 
-// Check for translation
-const otherLocale = locale === "pt" ? "en" : "pt";
-const otherPosts = getPosts(otherLocale);
-const hasTranslation = otherPosts.some((p) => p.slug === slug || p.i18n === slug);
-const translationSlug = otherPosts.find((p) => p.slug === slug || p.i18n === slug)?.slug;
+const translationSlug = getTranslationSlug(slug, locale);
+const showTranslation = hasTranslation(slug, locale) && translationSlug !== null;
 
 const dateOptions: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -86,7 +81,7 @@ const backUrl = locale === "pt" ? "/posts" : "/en/posts";
                   prose-blockquote:border-l-2 prose-blockquote:border-white prose-blockquote:text-neutral-400 prose-blockquote:font-light prose-blockquote:italic"
            set:html={post.body} />
 
-      {hasTranslation && translationSlug && (
+      {showTranslation && translationSlug && (
         <div class="mt-20 pt-10 border-t border-neutral-800 flex justify-end">
           <a href={translationUrl} class="group flex items-center gap-4 text-xs font-bold tracking-[0.2em] text-white uppercase hover:text-neutral-400 transition-colors">
             <span>{translationText}</span>

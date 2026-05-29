@@ -1,7 +1,7 @@
 ---
 import type { Locale } from "@data/i18n";
 import { getDictionary } from "@data/i18n";
-import { ArrowDown } from "lucide-astro";
+import { ArrowDown } from "@lucide/astro";
 
 interface Props {
   locale: Locale;
@@ -31,7 +31,7 @@ const dict = getDictionary(locale);
       </p>
       
       <div class="flex items-center gap-4 group cursor-pointer text-white">
-        <span class="font-bold text-xs tracking-widest uppercase">Scroll to explore</span>
+        <span class="font-bold text-xs tracking-widest uppercase">{dict.hero.scrollHint}</span>
         <ArrowDown class="w-6 h-6 animate-bounce text-white" />
       </div>
     </div>
